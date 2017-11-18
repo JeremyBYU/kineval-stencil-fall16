@@ -1,0 +1,26 @@
+{
+  "name": "kineval-stencil-fall16",
+  "version": "1.0.0",
+  "description": "KinEval\r =======",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyBYU/kineval-stencil-fall16.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremyBYU/kineval-stencil-fall16/issues"
+  },
+  "engines": {
+    "node": "8.9.1"
+  },
+  "homepage": "https://github.com/JeremyBYU/kineval-stencil-fall16#readme",
+  "devDependencies": {
+    "@types/jest": "^21.1.6",
+    "jest": "^21.2.1"
+  }
+}
