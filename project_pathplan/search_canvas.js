@@ -4,6 +4,32 @@ const PE_OBSTACLE = 100
 // Weighted cost constant for closeness to obstacle
 const PE_LAMBDA = .033
 
+
+/**
+ * A Cell represents an individual component in our discretized world map (a grid).
+ * It hold its index position (i,j) and world position (x,y) - Discrete integers vs real valued numbers.
+ * In addition it holds several properties that will come in handy during graph search algorithms.
+ * Finally, it also overloads the valueOf operator so that Cells can be compared (i.e Cell1 > Cell2)
+ * @class Cell
+ */
+class Cell {
+    constructor(i, j, x, y,  obstacle=false,  parent=null, distance=100000, visited=false, priority=null, queued=false) {
+        this.i = i
+        this.j = j
+        this.x = x
+        this.y = y
+        this.parent = parent
+        this.distance = distance
+        this.visited = visited
+        this.priority = priority
+        this.queued = queued
+        this.obstacle = obstacle
+    }
+    valueOf() {
+        this.priority
+    }
+}
+
 /**
  * Determines whether two floating point numbers are equal
  * 
@@ -705,23 +731,12 @@ function initSearchGraph() {
     for (let iind = 0, xpos = -2; xpos < 7; iind++ , xpos += eps) {
         G[ iind ] = [];
         for (let jind = 0, ypos = -2; ypos < 7; jind++ , ypos += eps) {
-            G[ iind ][ jind ] = {
-                i: iind, j: jind, // mapping to graph array
-                x: xpos, y: ypos, // mapping to map coordinates
-                parent: null, // pointer to parent in graph along motion path
-                distance: 10000, // distance to start via path through parent
-                // I believe this is to indicate if its in the closed set
-                visited: false, // flag for whether the node has been visited
-                priority: null, // visit priority based on fscore
-                queued: false, // flag for whether the node has been queued for visiting
-                obstacle: testCollision([xpos, ypos])
-            };
+            G[ iind ][ jind ] =  new Cell(iind, jin, xpos, ypos, testCollision([xpos, ypos]) )
 
-            // STENCIL: determine whether this graph node should be the start
-            //   point for the search
+            // STENCIL: determine whether this graph node should be the start point for the search
             if (is_equal(xpos, q_init[0]) && is_equal(ypos, q_init[1])) {
                 G[ iind ][ jind ].distance = 0
-                insert(G[ iind ][ jind ], visit_queue, search_alg)
+                visit_queue.push(G[ iind ][ jind ])
             }
 
         }
