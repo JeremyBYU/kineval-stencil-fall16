@@ -18,13 +18,48 @@
 // In node it can bre "required" as per usual using the CommonJS standard.
 (function (exports) {
 
+
+
+
+  /**
+ * This function will determine if the configuration is in a collision with an obstacle
+ * 
+ * @param {[number, number]} q - [x,y]  world coordinates
+ * @returns {boolean}
+ */
+  function testCollision (q, range) {
+
+    var j, i;
+
+    // test for collision with each object
+    for (j = 0; j < range.length; j++) {
+
+      // assume configuration is in collision
+      var in_collision = true;
+
+      // no collision detected, if configuration is outside obstacle along any dimension
+      for (i = 0; i < q.length; i++) {
+        if ((q[ i ] < range[ j ][ i ][ 0 ]) || (q[ i ] > range[ j ][ i ][ 1 ]))
+          in_collision = false;
+      }
+
+      // return collision, if configuration inside obstacle extents along all dimensions
+      if (in_collision)
+        return true;
+    }
+
+    // return no collision, if no collision detected with any obstacle
+    return false;
+  }
+
   /**
    * This will return ALL neighboring cells from a given cell
    * It does this by applying the left, right, up, and down actions (in that specific order)
    * @param {Cell} cell 
+   * @param {Cell[][]} G - The global discretized map
    * @return {Cell[]} neighbors
    */
-  function get_all_neighbors (cell) {
+  function get_all_neighbors (cell, G) {
     // index of the cell
     let i = cell.i, j = cell.j
     // list of neighbors
@@ -50,22 +85,25 @@
   /**
   * This will return the neighboring cells from a given cell
   * It does this by applying the left, right, up, and down actions
-  * It ensures that the resulting neighbor is in bounds and obstacle free
+  * It ensures that the resulting neighbor is in bounds, obstacle free, and not previously visited
   * @param {Cell} cell 
+  * @param {Cell[][]} G - The global discretized map
   * @return {Cell[]} neighbors
   */
-  exports.get_neighbors = function get_neighbors (cell) {
+  exports.get_neighbors = function get_neighbors (cell, G, obstacles) {
     // index of the cell
-    let neighbors = get_all_neighbors(cell)
+    let neighbors = get_all_neighbors(cell, G)
 
-    const filtered_neighbors = neighbors.filter((neighbor) => {
+    const filtered_neighbors = neighbors.filter((neighbor, obstacles) => {
       const world_coords = [ neighbor.x, neighbor.y ]
-      const collision_detected = testCollision(world_coords)
+      const collision_detected = testCollision(world_coords, obstacles)
       // Neighbor can't hit an obstacle, can't be in closed set
       return !collision_detected && !neighbor.visited
     })
     return filtered_neighbors
   }
+
+  exports.testCollision = testCollision
 
 
 })(typeof exports === 'undefined' ? this[ 'search' ] = {} : exports);

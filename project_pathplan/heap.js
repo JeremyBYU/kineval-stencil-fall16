@@ -16,11 +16,10 @@
 
 // This Immediately Invoked Function Expression (IIFE) is used to allow this module to be used in the 
 // browser as well as in nodejs. In the browser this module will be be available under the global variable 'heap'.
-// In node it can bre "required" as per usual using the CommonJS standard.
+// In node it can bee "required" as per usual using the CommonJS standard.
 (function (exports) {
 
   const HEAP_TYPE = 'min' // Default heap type
-  console.log('Loaded heap.js')
   /**
    * This function will insert an element into the heap array.
    * @template T - Any object that implements the operator .valueOf() to provide a real valued number
@@ -113,7 +112,7 @@
    * @param {T[]} heap - The heap array
    * @param {Number} p_index - Parent items index in the heap
    * @param {Number} lc_index - The left child's index of the parent
-   * @param {Number} rc_index - The right child's index of the 
+   * @param {Number} rc_index - The right child's index of the parent
    * @param {string} [type='min'] - Optional heap type specification. Possible values are 'min' or 'max'
    */
   function swap_children (heap, p_index, lc_index, rc_index, type = HEAP_TYPE) {

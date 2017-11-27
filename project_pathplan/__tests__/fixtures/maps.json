@@ -1,0 +1,31 @@
+{
+  "maps": {
+    "Simple Map": {
+      "bounds": {
+        "x_start": -2,
+        "x_end": 7,
+        "y_start": -2,
+        "y_end": 7
+      },
+      "obstacles": [
+                    [ [ -1.8, 5.8 ], [ -1.8, -1 ] ], 
+                    [ [ -1.8, 5.8 ], [ 5, 5.8 ] ],
+                    [ [ -1.8, -1 ], [ -1.8, 5.8 ] ],
+                    [ [ 5, 5.8 ], [ -1.8, 5.8 ] ]
+                  ]
+    }
+  },
+  "getNeighbors": {
+    "Neighbors near edge": {
+      "map": "Simple Map",
+      "input": [0,0],
+      "output": [[1,0],[0,1]]
+    },
+    "Neighbors with obstacles": {
+      "map": "Simple Map",
+      "input": [11,0],
+      "output": [[1,0],[0,1]]
+    }
+  }
+}
+
