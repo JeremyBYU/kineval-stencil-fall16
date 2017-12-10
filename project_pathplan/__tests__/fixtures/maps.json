@@ -19,12 +19,12 @@
     "Neighbors near edge": {
       "map": "Simple Map",
       "input": [0,0],
-      "output": [[1,0],[0,1]]
+      "output": [[-0.1,0],[0.1,0], [0, -0.1], [0, 0.1]]
     },
     "Neighbors with obstacles": {
       "map": "Simple Map",
-      "input": [11,0],
-      "output": [[1,0],[0,1]]
+      "input": [-1,-1],
+      "output": [[-0.9,-1],[-1,-0.9]]
     }
   }
 }

@@ -48,41 +48,22 @@ exports.construct_map = function construct_map ({x_start = -2, x_end = 7, y_star
   return G
 }
 
-exports.world_to_cell = function world_to_cell(x, y, {x_start = -2, x_end = 7, y_start = -2, y_end = 7, eps = .1}) {
-  x 
+
+
+exports.world_to_cell = function world_to_cell(x, y, {x_start = -2, x_end = 7, y_start = -2, y_end = 7, eps = .1} = {} ) {
+  delta_x = x - x_start
+  delta_y = y - y_start
+  i = Math.round(delta_x / eps)
+  j = Math.round(delta_y / eps)
+  return [i, j]
 }
 
-/**
- * This function will determine if the configuration is in a collision with an obstacle
- * 
- * @param {[number, number]} q - [x,y]  world coordinates
- * @returns {boolean}
- */
-function testCollision (q, range) {
-
-  var j, i;
-
-  // test for collision with each object
-  for (j = 0; j < range.length; j++) {
-
-    // assume configuration is in collision
-    var in_collision = true;
-
-    // no collision detected, if configuration is outside obstacle along any dimension
-    for (i = 0; i < q.length; i++) {
-      if ((q[ i ] < range[ j ][ i ][ 0 ]) || (q[ i ] > range[ j ][ i ][ 1 ]))
-        in_collision = false;
-    }
-
-    // return collision, if configuration inside obstacle extents along all dimensions
-    if (in_collision)
-      return true;
-  }
-
-  // return no collision, if no collision detected with any obstacle
-  return false;
+exports.worlds_to_cells = function worlds_to_cells(worlds) {
+  cells = worlds.map((world) => {
+    return exports.world_to_cell(...world)
+  })
+  return cells
 }
-
 
 /**
  * 

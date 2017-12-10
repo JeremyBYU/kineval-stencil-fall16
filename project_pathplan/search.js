@@ -19,6 +19,13 @@
 (function (exports) {
 
 
+  function is_equal (numb1, numb2, epsilon = .00001) {
+    let tmp; // Declare a temp to be assigned and compared to the allowed offset.
+    // Subtract the two vales (Math.abs(x - y); may work but this is safer.)
+    (numb1 < numb2) ? tmp = (numb2 - numb1) : tmp = (numb1 - numb2);
+    // console.log(tmp)
+    return tmp < epsilon;
+  }
 
 
   /**
@@ -39,7 +46,9 @@
 
       // no collision detected, if configuration is outside obstacle along any dimension
       for (i = 0; i < q.length; i++) {
-        if ((q[ i ] < range[ j ][ i ][ 0 ]) || (q[ i ] > range[ j ][ i ][ 1 ]))
+        let min = range[ j ][ i ][ 0 ]
+        let max = range[ j ][ i ][ 1 ]
+        if ((q[ i ] < min || is_equal(q[i], min)) || (q[ i ] > max || is_equal(q[i], max)))
           in_collision = false;
       }
 
@@ -94,9 +103,10 @@
     // index of the cell
     let neighbors = get_all_neighbors(cell, G)
 
-    const filtered_neighbors = neighbors.filter((neighbor, obstacles) => {
+    const filtered_neighbors = neighbors.filter((neighbor) => {
       const world_coords = [ neighbor.x, neighbor.y ]
       const collision_detected = testCollision(world_coords, obstacles)
+      // console.log(world_coords, collision_detected, obstacles)
       // Neighbor can't hit an obstacle, can't be in closed set
       return !collision_detected && !neighbor.visited
     })
